@@ -1,26 +1,22 @@
-## Script to run an Rmd file for three different areas
+## Script to run an Rmd file
 ##
-## Now we call render() three times with different areas each time. 
-## We also specify the name of the output file. We could specify 
-## the output_dir and not the file name, but this would call each
-## report district-report.Rmd so each subsequent report would 
-## over-write the previous one.
+## Now that we re-use the LEdata object this script should run faster.
+##
+## It's usually a good idea to keep the outputs separate from the 
+## source code, so this time we will create an output folder if 
+## it does not already exist and specify the path to the output file.
+##
 
+if (!file.exists("../output")) dir.create("../output")
 
 rmarkdown::render("district-report.Rmd", 
                   params = list(area = "Medway"),
-                  output_file = "Medway.html")
+                  output_file = "../output/Medway.html")
 
 rmarkdown::render("district-report.Rmd", 
                   params = list(area = "Birmingham"),
-                  output_file = "Birmingham.html")
+                  output_file = "../output/Birmingham.html")
 
 rmarkdown::render("district-report.Rmd", 
                   params = list(area = "Leicester"),
-                  output_file = "Leicester.html")
-
-
-
-## One problem with this approach is that it calls fingertips_data() each time
-## and therefore will be slow when we need to run it for lots of areas.
-## We can improve this by changing our Rmd file slightly.
+                  output_file = "../output/Leicester.html")

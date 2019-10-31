@@ -13,17 +13,17 @@ library(fingertipsR)
 # `r params$area`  
 Produced: `r Sys.Date()`
 
+* In this version of the Rmd file we check to see if the data object `LEdata` exists and only try to get the data from the fingtertips website if it does not.
+* It is important to use a unique object name for the data and to avoid modifying it. Instead create a separate trimmed-down version. This is so that you can use the original object again when you need to run the report for a different area, etc.
 
-* Here we get life expectancy at birth data for all districts, then
-  - limit it to males and the area we have selected
-  - find the most recent time-period
-  - select the value for that most recent year
-* Then we embed this information in a narrative chunk
 
+## Life expectancy
 
 ```{r lifeexpectany, echo=FALSE}
 
-LEdata <- fingertips_data(90366, AreaTypeID = 101)
+## If the LA_data object does not exist, download the data from
+## the fingertips website
+if (!exists("LEdata")) LEdata <- fingertips_data(90366, AreaTypeID = 101)
 
 ## We create a logical vector i that is true for rows where the area name is 
 ## the one we have selected and sex is male 
@@ -42,6 +42,8 @@ i <- LEdata_m$Timeperiod == max_year
 LE_m <- LEdata_m$Value[i]
 LE_m <- round(LE_m, 1)
 
+
 ```
 
 Life expectancy in males in `r params$area` in `r max_year` was `r LE_m` years. 
+
