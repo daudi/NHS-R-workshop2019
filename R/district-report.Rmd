@@ -1,0 +1,21 @@
+---
+title: District report
+params:
+  area: Medway
+---
+  
+* This is a basic Rmd (R markdown) file.
+* At the top we have a YAML section. 
+* This YAML section contains a `params` reference and below it there is an indented `area` reference
+* These parameters are used by Knit to create a simple interface 
+* If we "knit with parameters" we will be asked to specify an area, with Medway as the default
+
+* Below we have an R chunk with no code
+
+
+```{r}
+
+
+
+```
+
