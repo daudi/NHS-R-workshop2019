@@ -21,7 +21,6 @@ Produced: `r Sys.Date()`
 * Then we embed this information in a narrative chunk
 
 
-
 ```{r lifeexpectany, echo=FALSE}
 
 LEdata <- fingertips_data(90366, AreaTypeID = 101)
