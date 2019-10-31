@@ -8,24 +8,41 @@ params:
 
 library(fingertipsR)
 
-
 ```
 
 # `r params$area`  
 Produced: `r Sys.Date()`
 
 
-* Now we will start to build our district profile. 
-* To begin with we get data from Public Health England's wonderful [fingtertips website](https://fingertips.phe.org.uk/) using the fingertipsR package
-* Each indicator in fingtertips has an ID. The ID for life expectancy at birth is [90366](https://fingertips.phe.org.uk/search/90366)
-* Data are available for different geographies. AreaTypeID 101 is for districts.
-* For now we are just going to look at the first 6 rows
+* Here we get life expectancy at birth data for all districts, then
+  - limit it to males and the area we have selected
+  - find the most recent time-period
+  - select the value for that most recent year
+* Then we embed this information in a narrative chunk
 
 
-```{r}
 
-x <- fingertips_data(90366, AreaTypeID = 101)
+```{r lifeexpectany, echo=FALSE}
 
-head(x)
+LEdata <- fingertips_data(90366, AreaTypeID = 101)
+
+## We create a logical vector i that is true for rows where the area name is 
+## the one we have selected and sex is male 
+i <- LEdata$AreaName == params$area & LEdata$Sex == "Male" 
+LEdata_m <- LEdata[i, ]
+
+## We want to have the year of the most recent data point in the narrative so
+## we find the maximum timeperiod. We use the sortable version to do this, but it
+## does not look very nice, so we use it to identify the more readable version
+## in the timeperiod column.
+max_year <- max(LEdata_m$TimeperiodSortable)
+max_year <- LEdata_m$Timeperiod[LEdata_m$TimeperiodSortable == max_year]
+i <- LEdata_m$Timeperiod == max_year
+
+## Use this logical vector to get the life expectancy value
+LE_m <- LEdata_m$Value[i]
+LE_m <- round(LE_m, 1)
+
 ```
 
+Life expectancy in males in `r params$area` in `r max_year` was `r LE_m` years. 
