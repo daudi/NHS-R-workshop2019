@@ -4,21 +4,28 @@ params:
   area: Medway
 ---
   
+```{r setup, echo=FALSE}
+
+library(fingertipsR)
+
+
+```
 
 # `r params$area`  
 Produced: `r Sys.Date()`
 
 
-* We can use the parameters in our document 
-  - in the narrative part of the of the document; and 
-  - in R code chunks.
-
+* Now we will start to build our district profile. 
+* To begin with we get data from Public Health England's wonderful [fingtertips website](https://fingertips.phe.org.uk/) using the fingertipsR package
+* Each indicator in fingtertips has an ID. The ID for life expectancy at birth is [90366](https://fingertips.phe.org.uk/search/90366)
+* Data are available for different geographies. AreaTypeID 101 is for districts.
+* For now we are just going to look at the first 6 rows
 
 
 ```{r}
 
-this_area <- params$area
-print(this_area)
+x <- fingertips_data(90366, AreaTypeID = 101)
 
+head(x)
 ```
 
